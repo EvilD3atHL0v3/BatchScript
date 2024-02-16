@@ -36,9 +36,10 @@ if defined lastFile (
 
     rem Output filename and hash values to the command prompt
     echo Filename: !filename!
-    echo SHA1 : !sha1value!
-    echo MD5 : !md5value!
-    echo SHA256 : !sha256value!
+    echo Hash Value :
+    echo SHA1 - !sha1value!
+    echo MD5 - !md5value!
+    echo SHA256 - !sha256value!
 ) else (
     rem If no PDF files were found, display a message
     echo No PDF files found in "%folderPath%".
