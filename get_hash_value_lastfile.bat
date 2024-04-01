@@ -19,7 +19,7 @@ if defined lastFile (
     set "filename=!lastFile!"
 
     rem Compute SHA1 hash
-    for /f "delims= " %%H in ('certutil -hashfile "!lastFile!" MD5 ^| findstr /i /v "hash"') do (
+    for /f "delims= " %%H in ('certutil -hashfile "!lastFile!" ^| findstr /i /v "hash"') do (
         set "sha1value=%%H"
     )
 
