@@ -1,13 +1,15 @@
 Windows Registry Editor Version 5.00
 
+;Mitigation the vulnerability of CVE-2013-3900 MS13-098
 [HKEY_LOCAL_MACHINE\Software\Microsoft\Cryptography\Wintrust\Config]
 "EnableCertPaddingCheck"="1"
-
 [HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Cryptography\Wintrust\Config]
 "EnableCertPaddingCheck"="1"
 
+;Mitigation the vulnerability of Weak LAN Manager hashing permitted
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA]
 "LMCompatibilityLevel"=dword:00000005
 
+;Mitigation the vulnerability of SMBv2 signing not required
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
 "LMCompatibilityLevel"=dword:00000001
