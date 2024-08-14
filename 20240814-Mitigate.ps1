@@ -6,3 +6,7 @@ New-ItemProperty -Path "HKLM:\Software\Wow6432Node\Microsoft\Cryptography\Wintru
 
 # Mitigation the vulnerability of Weak LAN Manager hashing permitted
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\LSA" -Name "LMCompatibilityLevel" -Value 5 -PropertyType DWord
+
+# Mitigation the vulnerability of SMBv2 signing not required
+# Enable "Digitally sign communication (always)" for Microsoft Network Server
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" -Name "RequireSecuritySignature" -Value 1 -Type DWord
