@@ -12,4 +12,4 @@ Windows Registry Editor Version 5.00
 
 ;Mitigation the vulnerability of SMBv2 signing not required
 [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters]
-"LMCompatibilityLevel"=dword:00000001
+"RequireSecuritySignature"=dword:00000001
