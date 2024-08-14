@@ -5,3 +5,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Cryptography\Wintrust\Config]
 "EnableCertPaddingCheck"="1"
+
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\LSA]
+"LMCompatibilityLevel"=dword:00000005
