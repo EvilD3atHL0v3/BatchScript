@@ -16,7 +16,7 @@ echo ================================================================
 echo    SIEM / ALERTS SIMULATION TESTING UTILITY [DOMAIN: %domain_name%]          
 echo ================================================================
 echo  1. Brute Force (12 Failed Attempts)
-echo  2. Password Reset Unauthorized (Non-ISD-UAM Change)
+echo  2. Password Reset Unauthorized
 echo  3. Account Re-enable
 echo  4. Lateral Movement (Multi-Machine Auth Simulation)
 echo  5. Policy Violation (Web Filter Navigation e.g. Pornhub and Eicar)
