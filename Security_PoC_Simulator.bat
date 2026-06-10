@@ -102,21 +102,64 @@ echo.
 echo --- [SIMULATION] Policy Violation (Web Filter Navigation) ---
 echo  1. Adult Content Navigation (pornhub[.]com)
 echo  2. Anti-Malware Test Indicator (eicar[.]org)
+echo  3. Entertainment / High-Bandwidth Video (netflix[.]com)
+echo  4. Online Gambling Site (bingoplus[.]com)
+echo  5. RUN ALL (Execute Simulations 1-4 Sequentially)
 echo.
-set /p web_choice="Select destination to simulate [1-2]: "
-if "%web_choice%"=="1" (
-    echo Generating DNS/HTTP request to pornhub.com...
-    curl -I -s --max-time 3 http://www.pornhub.com >nul 2>&1
-    nslookup pornhub.com >nul 2>&1
-    echo [SUCCESS] Done! Triggered DNS and HTTP headers for unapproved domain tracking.
-)
-if "%web_choice%"=="2" (
-    echo Requesting standardized EICAR malware string...
-    curl -s http://www.eicar.org/download/eicar.com >nul 2>&1
-    nslookup eicar.org >nul 2>&1
-    echo [SUCCESS] Done! EICAR test string requested to trip endpoint/WAF signatures.
-)
+set /p web_choice="Select destination to simulate [1-5]: "
+
+if "%web_choice%"=="1" goto RUN_PORNHUB
+if "%web_choice%"=="2" goto RUN_EICAR
+if "%choice%"=="3" or "%web_choice%"=="3" goto RUN_NETFLIX
+if "%web_choice%"=="4" goto RUN_BINGOPLUS
+if "%web_choice%"=="5" goto RUN_ALL_POLICIES
+goto INVALID_WEB
+
+:RUN_PORNHUB
+echo Generating DNS/HTTP request to pornhub.com...
+curl -I -s --max-time 3 http://www.pornhub.com >nul 2>&1
+nslookup pornhub.com >nul 2>&1
+echo [SUCCESS] Done! Triggered DNS and HTTP headers for unapproved domain tracking.
+if "%web_choice%"=="5" goto RUN_EICAR
 pause
+goto MENU
+
+:RUN_EICAR
+echo Requesting standardized EICAR malware string...
+curl -s http://www.eicar.org/download/eicar.com >nul 2>&1
+nslookup eicar.org >nul 2>&1
+echo [SUCCESS] Done! EICAR test string requested to trip endpoint/WAF signatures.
+if "%web_choice%"=="5" goto RUN_NETFLIX
+pause
+goto MENU
+
+:RUN_NETFLIX
+echo Generating DNS/HTTP request to netflix.com...
+curl -I -s --max-time 3 https://www.netflix.com >nul 2>&1
+nslookup netflix.com >nul 2>&1
+echo [SUCCESS] Done! Triggered network indicators for streaming media policy validation.
+if "%web_choice%"=="5" goto RUN_BINGOPLUS
+pause
+goto MENU
+
+:RUN_BINGOPLUS
+echo Generating DNS/HTTP request to bingoplus.com...
+curl -I -s --max-time 3 https://www.bingoplus.com >nul 2>&1
+nslookup bingoplus.com >nul 2>&1
+echo [SUCCESS] Done! Triggered network indicators for gambling policy validation.
+pause
+goto MENU
+
+:RUN_ALL_POLICIES
+echo.
+echo [!] Starting Full Policy Violation Suite...
+echo --------------------------------------------------
+goto RUN_PORNHUB
+
+:INVALID_WEB
+echo.
+echo [!] Invalid selection inside web policy menu.
+timeout /t 2 >nul
 goto MENU
 
 :DEFENSEEVASION
@@ -178,37 +221,66 @@ echo --- [SIMULATION] Shadow IT / Live Software Installation ---
 echo  1. Download and Install Nmap (Silent Mode)
 echo  2. Download and Install Wireshark (Silent Mode)
 echo  3. Download and Install Steam Client (Standard Setup)
+echo  4. RUN ALL (Sequentially Download and Install All Three)
 echo.
-set /p sw_choice="Select application installer to deploy [1-3]: "
+set /p sw_choice="Select application installer to deploy [1-4]: "
+
 mkdir C:\Windows\Temp\SimInstallers >nul 2>&1
 cd /d C:\Windows\Temp\SimInstallers
 
-if "%sw_choice%"=="1" (
-    echo [1/2] Downloading official Nmap Installer...
-    curl -L -o nmap-setup.exe "https://nmap.org/dist/nmap-7.95-setup.exe" >nul 2>&1
-    echo [2/2] Executing Nmap installation silently...
-    start /wait nmap-setup.exe /S
-    echo.
-    echo [SUCCESS] Nmap installed! Check "%ProgramFiles%\Nmap\" for the files.
-)
-if "%sw_choice%"=="2" (
-    echo [1/2] Downloading official Wireshark Windows Installer...
-    curl -L -o wireshark-setup.exe "https://2.test稳定版.wireshark.org/win64/Wireshark-win64-4.2.5.exe" >nul 2>&1
-    echo [2/2] Executing Wireshark installation silently...
-    start /wait wireshark-setup.exe /S
-    echo.
-    echo [SUCCESS] Wireshark installed! Check your system service registries.
-)
-if "%sw_choice%"=="3" (
-    echo [1/2] Downloading official Steam Client Installer...
-    curl -L -o SteamSetup.exe "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe" >nul 2>&1
-    echo [2/2] Launching Steam Setup Window...
-    start SteamSetup.exe
-    echo.
-    echo [SUCCESS] Steam Installer executed on desktop.
-)
-del /f /q C:\Windows\Temp\SimInstallers\* >nul 2>&1
+if "%sw_choice%"=="1" goto RUN_NMAP
+if "%sw_choice%"=="2" goto RUN_WIRESHARK
+if "%sw_choice%"=="3" goto RUN_STEAM
+if "%sw_choice%"=="4" goto RUN_ALL_SHADOW
+goto INVALID_SHADOW
+
+:RUN_NMAP
+echo [1/2] Downloading official Nmap Installer...
+curl -L -o nmap-setup.exe "https://nmap.org/dist/nmap-7.95-setup.exe" >nul 2>&1
+echo [2/2] Executing Nmap installation silently...
+start /wait nmap-setup.exe /S
+echo [SUCCESS] Nmap installation sequence finished.
+if "%sw_choice%"=="4" goto RUN_WIRESHARK
 pause
+goto MENU
+
+:RUN_WIRESHARK
+echo [1/2] Downloading official Wireshark Windows Installer...
+curl -L -o wireshark-setup.exe "https://2.test稳定版.wireshark.org/win64/Wireshark-win64-4.2.5.exe" >nul 2>&1
+echo [2/2] Executing Wireshark installation silently...
+start /wait wireshark-setup.exe /S
+echo [SUCCESS] Wireshark installation sequence finished.
+if "%sw_choice%"=="4" goto RUN_STEAM
+pause
+goto MENU
+
+:RUN_STEAM
+echo [1/2] Downloading official Steam Client Installer...
+curl -L -o SteamSetup.exe "https://cdn.akamai.steamstatic.com/client/installer/SteamSetup.exe" >nul 2>&1
+echo [2/2] Launching Steam Setup Window...
+:: Note: If running "Run All", this window will pop up. Once handled or closed, the script completes.
+start /wait SteamSetup.exe
+echo [SUCCESS] Steam installation sequence finished.
+goto CLEANUP_SHADOW
+
+:RUN_ALL_SHADOW
+echo.
+echo [!] Starting Full Shadow IT Installation Suite...
+echo --------------------------------------------------
+goto RUN_NMAP
+
+:CLEANUP_SHADOW
+echo Cleaning up installer cache...
+del /f /q C:\Windows\Temp\SimInstallers\* >nul 2>&1
+echo.
+echo [SUCCESS] All software deployment simulations finished!
+pause
+goto MENU
+
+:INVALID_SHADOW
+echo.
+echo [!] Invalid selection inside Shadow IT menu.
+timeout /t 2 >nul
 goto MENU
 
 :ENDPOINTTHREAT
