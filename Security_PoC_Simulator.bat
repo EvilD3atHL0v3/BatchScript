@@ -44,6 +44,8 @@ if "%choice%"=="10" goto FOREIGNLOGIN
 if "%choice%"=="X" goto EXIT
 goto INVALID
 
+:: created by EvilD3atHL0v3
+
 :BRUTEFORCE
 echo.
 echo --- [SIMULATION] Brute Force Authentication Failure ---
@@ -351,6 +353,8 @@ echo.
 echo [!] Invalid selection, please pick a number between 1 and 10.
 timeout /t 2 >nul
 goto MENU
+
+:: created by EvilD3atHL0v3
 
 :EXIT
 echo.
